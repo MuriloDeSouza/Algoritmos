@@ -1,5 +1,5 @@
 import streamlit as st
-from services.supabase import inserir_cliente
+from services.novos_clientes import inserir_cliente
 
 st.set_page_config(
     page_title='Bora Lá!', 
