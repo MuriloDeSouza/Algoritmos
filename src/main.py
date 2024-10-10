@@ -1,4 +1,5 @@
 import streamlit as st
+from services.supabase import inserir_cliente
 
 st.set_page_config(
     page_title='Bora Lá!', 
@@ -15,7 +16,17 @@ with st.form(key="Clientes", clear_on_submit=True):
     # pix = st.selectbox("Pix:", ("CPF", "Telefone", "E-mail", "CNPJ"))
     button = st.form_submit_button("Cadastrar")
 
+    if button:
+        resultado = inserir_cliente(grupo, nome, idade, pix)
+        if resultado:
+            st.success("Cliente cadastrado com sucesso!")
+        else:
+            st.error("Ocorreu um erro ao cadastrar o cliente.")
 
+botão = st.button("Cadastrar Cliente Teste")
+if botão:
+    resultado = inserir_cliente("Grupo Teste", "Nome Teste", 30, "teste@pix.com")
+    print(resultado)
 
 st.link_button('Profile','/Profile')
 st.link_button('Clients','/Clients')
