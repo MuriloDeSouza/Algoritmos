@@ -23,11 +23,6 @@ with st.form(key="Clientes", clear_on_submit=True):
         else:
             st.error("Ocorreu um erro ao cadastrar o cliente.")
 
-botão = st.button("Cadastrar Cliente Teste")
-if botão:
-    resultado = inserir_cliente("Grupo Teste", "Nome Teste", 30, "teste@pix.com")
-    print(resultado)
-
-st.link_button('Profile','/Profile')
+st.link_button('Grupos','/Grupos')
 st.link_button('Clients','/Clients')
 
