@@ -1,4 +1,4 @@
-venv*
+src/venv
 supabase*
 package-lock.json
 package.json
