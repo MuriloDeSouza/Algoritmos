@@ -18,13 +18,30 @@ def select_group():
 def select_group_from_tables():
     supabase = conectar_supabase()
     try:
-        resultado = supabase.table("Eventos").select("*").execute()
+        resultado = supabase.table("Evento").select("*").execute()
         if resultado:
             return resultado.data
     except Exception as e:
         print("An error occurred:", e)
         return False
-    
+
+def select_group_by_name(name):
+    supabase = conectar_supabase()  # Certifique-se de adicionar os parênteses para a conexão
+    try:
+        # Executa a query para pegar os registros onde o nome é igual a "name"
+        resultado = supabase.table("Evento").select("*").eq("cl_nome", name).execute()  # Corrigir o campo "name" para "cl_nome"
+        
+        if resultado and resultado.data:  # Verifica se há resultados
+            # Extrair os valores da coluna "cl_valor" (valores float) e somar
+            total_valor = sum([item['cl_valor'] for item in resultado.data if 'cl_valor' in item])
+            return total_valor
+        else:
+            return "Nenhum dado encontrado para o nome fornecido."
+    except Exception as e:
+        print("An error occurred:", e)
+        return False
+
+
 def delete_group_by_id(id):
     supabase = conectar_supabase()
     try:
