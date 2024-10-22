@@ -1,5 +1,7 @@
 import streamlit as st
 from services.novos_valores import inserir_valores
+from database.supabase import select_group_from_tables
+import pandas as pd
 
 st.write("# Cadastro de Valores")
 st.write("### Preencha o formulário abaixo para cadastrar um novo valor")
@@ -18,3 +20,19 @@ with st.form(key="Evento", clear_on_submit=True):
             st.success("Valor cadastrado com sucesso!")
         else:
             st.error("Ocorreu um erro ao cadastrar o valor.")
+
+# Parte de pegar os grupos do banco de dados
+st.write("## Grupos Cadastrados")
+st.write("Aqui estão os grupos cadastrados:")
+
+# Obtém os dados do Supabase
+resultado = select_group_from_tables()
+
+# Verifica se os dados foram recebidos corretamente
+if resultado:
+    # Transforma os dados em um DataFrame
+    df = pd.DataFrame(resultado)
+    st.dataframe(df)  # Exibe a tabela de forma interativa
+else:
+    st.write("Nenhum dado encontrado ou houve um erro na recuperação dos dados.")
+

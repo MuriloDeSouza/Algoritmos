@@ -14,6 +14,16 @@ def select_group():
     except Exception as e:
         print("An error occurred:", e)
         return False
+
+def select_group_from_tables():
+    supabase = conectar_supabase()
+    try:
+        resultado = supabase.table("Eventos").select("*").execute()
+        if resultado:
+            return resultado.data
+    except Exception as e:
+        print("An error occurred:", e)
+        return False
     
 def delete_group_by_id(id):
     supabase = conectar_supabase()
