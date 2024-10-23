@@ -9,9 +9,9 @@ st.write("# Cadastro de Valores")
 st.write("### Preencha o formulário abaixo para cadastrar um novo valor")
 
 with st.form(key="Evento", clear_on_submit=True):
-    nome = st.selectbox("Escolha um nome", nomes)
-    valor = st.number_input("Valor:", format="%.2f", step=0.01, min_value=0.01, placeholder="Digite o valor separado por ponto")
-    descricao = st.text_input("Descrição:", placeholder="Digite uma descrição para o valor")
+    nome = st.selectbox("Quem vai pagar essa conta", nomes)
+    valor = st.number_input("Valor:", format="%.2f", step=0.1, min_value=0.01, placeholder="Digite o valor separado por ponto")
+    descricao = st.text_input("Descrição:", placeholder="Com o que vc gastou?")
     botao = st.form_submit_button("Cadastrar")
 
     if botao:
@@ -37,7 +37,7 @@ else:
 
 
 selecionar = st.selectbox("Escolha um nome:", nomes)
-botton = st.button("Ver valor gasto")
+botton = st.button("Quanto essa pessoa já gastou?")
 
 if botton:
     st.success("Valor cadastrado com sucesso!")

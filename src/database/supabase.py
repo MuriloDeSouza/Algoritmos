@@ -8,7 +8,7 @@ def conectar_supabase() -> Client:
 def select_group():
     supabase = conectar_supabase()
     try:
-        resultado = supabase.table("Clientes").select("*").execute()
+        resultado = supabase.table("Evento").select("*").execute()
         if resultado:
             return resultado.data
     except Exception as e:
@@ -28,7 +28,7 @@ def select_group_from_tables():
 def names_in_group():
     supabase = conectar_supabase()
     try:
-        # Seleciona os nomes da tabela 'Evento'
+        # Seleciona os nomes dos eventos
         resultado = supabase.table("Evento").select("cl_nome").execute()
         
         if resultado and resultado.data:
@@ -42,26 +42,32 @@ def names_in_group():
         return []
 
 def select_group_by_name(name):
-    supabase = conectar_supabase()  # Certifique-se de adicionar os parênteses para a conexão
+    supabase = conectar_supabase()
     try:
-        # Executa a query para pegar os registros onde o nome é igual a "name"
-        resultado = supabase.table("Evento").select("*").eq("cl_nome", name).execute()  # Corrigir o campo "name" para "cl_nome"
-        
-        if resultado and resultado.data:  # Verifica se há resultados
-            # Extrair os valores da coluna "cl_valor" (valores float) e somar
-            total_valor = sum([item['cl_valor'] for item in resultado.data if 'cl_valor' in item])
-            return total_valor
+        # Pega o id_serial do evento pelo nome
+        evento = supabase.table("Evento").select("id_serial").eq("cl_nome", name).execute()
+        if evento and evento.data:
+            id_evento = evento.data[0]['id_serial']
+            
+            # Soma os valores gastos por todos os clientes no evento
+            resultado = supabase.table("Gastos").select("cl_valor").eq("id_evento", id_evento).execute()
+            
+            if resultado and resultado.data:
+                total_valor = sum([item['cl_valor'] for item in resultado.data if 'cl_valor' in item])
+                return total_valor
+            else:
+                return "Nenhum gasto encontrado para este evento."
         else:
-            return "Nenhum dado encontrado para o nome fornecido."
+            return "Evento não encontrado."
     except Exception as e:
         print("An error occurred:", e)
         return False
 
 
-def delete_group_by_id(id):
+def delete_group_by_id(id_serial):
     supabase = conectar_supabase()
     try:
-        resultado = supabase.table("Clientes").delete().eq("id", id).execute()
+        resultado = supabase.table("Evento").delete().eq("id_serial", id_serial).execute()
         if resultado:
             return resultado.data
     except Exception as e:
@@ -71,7 +77,7 @@ def delete_group_by_id(id):
 def delete_group_by_name(nome):
     supabase = conectar_supabase()
     try:
-        resultado = supabase.table("Clientes").delete().eq("cl_grupo", nome).execute()
+        resultado = supabase.table("Evento").delete().eq("cl_nome", nome).execute()
         if resultado:
             return resultado.data
     except Exception as e:
@@ -81,14 +87,9 @@ def delete_group_by_name(nome):
 def all_tables():
     supabase = conectar_supabase()
     try:
-        # Consulta SQL para listar todas as tabelas no schema público
-        query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
-        
-        # Executa a consulta SQL diretamente usando o método sql() do Supabase
-        resultado = supabase.rpc("execute_sql", {"query": query}).execute()
-        
+        resultado = supabase.rpc("get_tables", {}).execute()  # Se você tiver um RPC customizado
         if resultado and resultado.data:
-            return [tabela['table_name'] for tabela in resultado.data]
+            return resultado.data
         else:
             return "Nenhuma tabela encontrada."
     except Exception as e:
