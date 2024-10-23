@@ -1,11 +1,11 @@
 from database.supabase import conectar_supabase
 
-def inserir_valores(nome, valor, descricao):
+def inserir_gastos(cliente, evento, valor):
     supabase = conectar_supabase()
     dados = {
-        "cl_nome": nome,
+        "id_cliente": cliente,
+        "ide_evento": evento,
         "cl_valor": valor,
-        "cl_descricao": descricao,
     }
-    resultado = supabase.table("Evento").insert(dados).execute()
+    resultado = supabase.table("Gastos").insert(dados).execute()
     return resultado
