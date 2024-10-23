@@ -25,6 +25,22 @@ def select_group_from_tables():
         print("An error occurred:", e)
         return False
 
+def names_in_group():
+    supabase = conectar_supabase()
+    try:
+        # Seleciona os nomes da tabela 'Evento'
+        resultado = supabase.table("Evento").select("cl_nome").execute()
+        
+        if resultado and resultado.data:
+            # Cria uma lista de nomes únicos
+            nomes_unicos = list({nome['cl_nome'] for nome in resultado.data})
+            return nomes_unicos
+        else:
+            return []
+    except Exception as e:
+        print("An error occurred:", e)
+        return []
+
 def select_group_by_name(name):
     supabase = conectar_supabase()  # Certifique-se de adicionar os parênteses para a conexão
     try:
