@@ -94,16 +94,5 @@ def delete_group_by_name(nome):
         print("An error occurred:", e)
         return False
 
-def all_tables():
-    supabase = conectar_supabase()
-    try:
-        resultado = supabase.rpc("get_tables", {}).execute()  # Se você tiver um RPC customizado
-        if resultado and resultado.data:
-            return resultado.data
-        else:
-            return "Nenhuma tabela encontrada."
-    except Exception as e:
-        print("An error occurred:", e)
-        return "Erro ao recuperar as tabelas."
 
 

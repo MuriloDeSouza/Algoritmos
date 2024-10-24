@@ -21,6 +21,7 @@ with st.form(key="Evento", clear_on_submit=True):
         resultado = inserir_evento(nome)
         if resultado:
             st.success("Valor cadastrado com sucesso!")
+            st.switch_page('pages/Clients.py')
         else:
             st.error("Ocorreu um erro ao cadastrar o valor.")
 
@@ -36,7 +37,7 @@ if resultado:
 
 
 
-st.link_button('Grupos','/Grupos')
+st.link_button('Testes','/Grupos')
 st.link_button('Clients','/Clients')
 st.link_button('Conta','/Conta')
 

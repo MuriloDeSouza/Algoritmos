@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from database.supabase import select_group, delete_group_by_id, delete_group_by_name, all_tables
+from database.supabase import select_group, delete_group_by_id, delete_group_by_name
 
 # Parte de pegar os grupos do banco de dados
 st.write("## Grupos Cadastrados")
@@ -36,18 +36,6 @@ if resultado:
             st.success(f"Grupo com nome {selected_nome} apagado com sucesso!")
         else:
             st.error("Ocorreu um erro ao tentar apagar o grupo.")
-
-    # Parte para ver todas as tabelas do banco de dados
-    st.write("## Todas as Tabelas do Banco de Dados")
-    st.write("Aqui estão todas as tabelas do banco de dados:")
-
-    tables = all_tables()
-
-    # Exibindo as tabelas no Streamlit
-    if tables:
-        st.write(tables)
-    else:
-        st.write("Não foi possível recuperar as tabelas ou não há tabelas no banco de dados.")
 
 else:
     st.write("Nenhum dado encontrado ou houve um erro na recuperação dos dados.")
