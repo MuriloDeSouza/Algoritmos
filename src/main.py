@@ -37,6 +37,18 @@ if resultado:
 
 
 
+
+# def toggle_and_text():
+#     cols = st.columns(2)
+#     cols[0].toggle("Toggle")
+#     cols[1].text_area("Enter text")
+
+# toggle_and_text()
+# cols = st.columns(2)
+# cols[0].selectbox("Select", [1,2,3], None)
+# cols[1].button("Update")
+
+
 st.link_button('Testes','/Grupos')
 st.link_button('Clients','/Clients')
 st.link_button('Conta','/Conta')

@@ -4,6 +4,8 @@ from pages.Gastos import get_eventos
 
 eventos = get_eventos()
 
+evento = st.selectbox("Selecione o evento", eventos, format_func=lambda x: x[1])
+
 # Função para calcular o total de gastos de um evento
 def calcular_total_e_dividir_gastos(evento_id):
     supabase = conectar_supabase()
