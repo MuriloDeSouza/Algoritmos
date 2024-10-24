@@ -5,7 +5,7 @@ from services.novos_valores import inserir_gastos
 # Função para buscar clientes de um evento específico
 def get_clientes_por_evento(evento_id):
     supabase = conectar_supabase()
-    clientes = supabase.table("Clientes").select("id_serial, cl_nome, id_evento").eq("id_evento", evento_id).execute()
+    clientes = supabase.table("Clientes").select("id_serial, cl_nome, cl_pix, id_evento").eq("id_evento", evento_id).execute()
     return [(cliente['id_serial'], cliente['cl_nome']) for cliente in clientes.data]
 
 # Função para buscar eventos
@@ -27,10 +27,11 @@ clientes = get_clientes_por_evento(evento[0])
 with st.form(key="Gastos", clear_on_submit=True):
     cliente = st.selectbox("Selecione o cliente", clientes, format_func=lambda x: x[1])
     valor = st.number_input("Valor do gasto:", min_value=0.0, step=0.01)
+    descricao = st.text_input("Descrição do gasto:", placeholder="Digite uma descrição para o gasto")
 
     button = st.form_submit_button("Registrar Gasto")
     if button:
-        resultado = inserir_gastos(cliente[0], evento[0], valor)
+        resultado = inserir_gastos(cliente[0], evento[0], valor, descricao)
         if resultado:
             st.success("Gasto registrado com sucesso!")
         else:
