@@ -1,9 +1,9 @@
 from database.supabase import conectar_supabase
 
-def inserir_gastos(cliente, evento, valor, descricao):
+def inserir_gastos(cliente_pagador, evento, valor, descricao):
     supabase = conectar_supabase()
     dados = {
-        "id_cliente": cliente,
+        "id_cliente": cliente_pagador,
         "id_evento": evento,
         "cl_valor": valor,
         "cl_descricao": descricao,
